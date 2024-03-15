@@ -13,16 +13,16 @@ if(!isset($_SESSION['email'])){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tailoring System | Home</title>
-    <link rel="icon" href="images/icon.jpg"> 
+    <link rel="icon" href="images/icon.png"> 
     <!-- Google Fonts Link For Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0">
     <link rel="stylesheet" href="style.css">
     <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="node_modules/sweetalert2/dist/sweetalert2.min.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <!-- Include home.js -->
-        <script src="home.js"></script>
 
 </head>
 <body>
@@ -55,10 +55,10 @@ if(!isset($_SESSION['email'])){
 
                             if($profileBlob !== null || !empty($profileBlob)){
                               $profilePicture = 'data:image/png;base64,' . base64_encode($profileBlob);
-                              echo "<img src='$profilePicture' alt='Profile Picture' id='profilePicture'>";
+                              echo "<img src='$profilePicture' alt='Profile Picture' id='profilePicture' style='width: 30px; height:30px; border-radius: 50%; margin-left:20px;'>";
                             }
                             else{
-                              echo "<img src='images/default_profile.png' alt='Default Profile Picture' style='width: 25px; height:25px; margin-left:20px;' id='profilePicture'>";
+                              echo "<img src='images/default_profile.png' alt='Default Profile Picture' style='width: 30px; height:30px; margin-left:20px; border-radius: 50%;' id='profilePicture'>";
                             }
                         } 
                       ?>
@@ -172,7 +172,10 @@ if(!isset($_SESSION['email'])){
 <!-- Bootstrap Bundle with Popper -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+<script src="node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
 
+        <!-- Include home.js -->
+        <script src="home.js"></script>
 
 </body>
 </html>
