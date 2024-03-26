@@ -31,7 +31,7 @@ if(!isset($_SESSION['email'])){
             <a href="index.php" class="logo" style="margin-left: 1%">
                 <img src="images/logo.png" alt="logo">
                 <h2>Tailoring System</h2>
-            </a>   
+            </a>    
             
             <div style="width: 50%; display: flex; align-items: center;">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" style="margin-right: 5px;">
