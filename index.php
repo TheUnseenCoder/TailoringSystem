@@ -140,8 +140,15 @@ if(!isset($_SESSION['email'])){
             <input type="password" class="form-control" id="signupPassword" name="signupPassword" required>
           </div>
           <div class="mb-3">
-            <label for="mobileNum" class="form-label">Mobile Number</label>
-            <input type="number" class="form-control" id="mobileNum" name="mobileNum" placeholder="+63" pattern="[0-9]*" maxlength="11" required>
+                <label for="otp" class="form-label">OTP</label>
+              <div class="row">
+                <div class="col-8">
+                <input type="number" class="form-control" id="otp" name="otp" placeholder="000000" pattern="[0-9]*" maxlength="6" required>
+              </div>
+              <div class="col-4">
+                <button type="button" id="submitOTP" class="btn btn-success">Send OTP</button>
+              </div>
+            </div>
           </div>
           <center>
             <button type="button" id="signupManual" class="btn btn-primary">Sign Up</button>

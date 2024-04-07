@@ -1,6 +1,14 @@
 <?php 
 include("conn.php");
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+require "../vendor/autoload.php";
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+
 if (isset($_POST['user_name']) && isset($_POST['password']) && isset($_POST['fullname']) && isset($_POST['confirm_password']) && isset($_POST['mobile_number'])){
 
     $user_name = $_POST['user_name'];
@@ -10,19 +18,14 @@ if (isset($_POST['user_name']) && isset($_POST['password']) && isset($_POST['ful
     $mobile_number = $_POST['mobile_number'];
     $fullname = $_POST['fullname'];
 
-
     if ($password == $confirm_password){
-        if (!is_numeric($mobile_number) || strlen($mobile_number) !== 11) {
-            echo "Mobile number must contain only 11 digits.";
-        }
-        else{
             $selector = "SELECT * FROM ts_users WHERE email = '$user_name'";
             $result = mysqli_query($conn, $selector);
             if(mysqli_num_rows($result) > 0){
                 echo "Email Address is Already used!";
             }
             else{            
-                $sql = "INSERT INTO ts_users (email, fullname, password, mobile_number) VALUES ('$user_name', '$fullname', '$new_password', '$mobile_number')";
+                $sql = "INSERT INTO ts_users (email, fullname, password, ) VALUES ('$user_name', '$fullname', '$new_password', '$mobile_number')";
                 if(mysqli_query($conn, $sql)){
                         echo "success";                 
                 }
@@ -30,7 +33,6 @@ if (isset($_POST['user_name']) && isset($_POST['password']) && isset($_POST['ful
                     echo "Account Creation Failed!";
                 }
             }
-        } 
     }else{
         echo "Passwords are not the same!";
     }

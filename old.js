@@ -1,5 +1,6 @@
 $(document).ready(function() {
     $("#loginManual").click(function() {
+
         var formData = $("#loginForm").serialize();
 
         $.ajax({
@@ -8,6 +9,7 @@ $(document).ready(function() {
             data: formData,
             dataType: "json",
             success: function(response) {
+                // Handle login response
                 if (response.success) {
                     Swal.fire({
                         icon: 'success',
@@ -15,14 +17,11 @@ $(document).ready(function() {
                         text: response.message,
                     }).then((result) => {
                         if (result.isConfirmed || result.isDismissed) {
-                            if (response.user_type === '0') {
-                                window.location.href = "admin/index.php";
-                            } else {
-                                window.location.href = "index.php";
-                            }
+                            window.location.href = "index.php";
                         }
                     });
                 } else {
+                    // Display error message using SweetAlert2
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
@@ -31,6 +30,7 @@ $(document).ready(function() {
                 }
             },
             error: function(xhr, status, error) {
+                // Display error message
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -41,7 +41,7 @@ $(document).ready(function() {
     });
 
     $("#signupManual").click(function() {
-        var formData = $("#SignUpForm").serialize() + "&signupAction=true";
+        var formData = $("#SignUpForm").serialize();
 
         $.ajax({
             url: "backend/signup.php",
@@ -62,46 +62,6 @@ $(document).ready(function() {
                 } else {
                     Swal.fire({
                         icon: 'error',
-                        title: 'Oops... ',
-                        text: response.message,
-                    });
-                }
-            },
-            error: function(xhr, status, error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops... 1',
-                    text: 'Error occurred: ' + error,
-                });
-            }
-        });
-    });
-
-    // Event delegation for dynamically generated #submitOTP button
-    $(document).on("click", "#submitOTP", function() {
-        var formData = $("#SignUpForm").serialize() + "&otpAction=true";
-
-        $.ajax({
-            url: "backend/signup.php",
-            type: "POST",
-            data: formData,
-            dataType: "json",
-            success: function(response) {
-                if (response.success) {
-                    var successToast = Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: response.message,
-                        showConfirmButton: false // Hide the confirm button
-                    });
-
-                    // Automatically close the success message after 3 seconds
-                    setTimeout(function() {
-                        successToast.close();
-                    }, 3000);
-                } else {
-                    Swal.fire({
-                        icon: 'error',
                         title: 'Oops...',
                         text: response.message,
                     });
@@ -116,6 +76,49 @@ $(document).ready(function() {
             }
         });
     });
+    // $("#loginGmail").click(function() {
+    //     // Send AJAX request for login with Google
+    //     $.ajax({
+    //         url: "backend/login_google.php",
+    //         type: "POST",
+    //         dataType: "json",
+    //         success: function(response) {
+    //             // Handle login response
+    //             console.log("Login with Google Response:", response);
+    //             if (response.success) {
+    //                 // Redirect to profile page
+    //                 window.location.href = "index.php";
+    //             } else {
+    //                 // Display error message
+    //                 alert(response.message);
+    //             }
+    //         },
+    //         error: function(xhr, status, error) {
+    //             // Display error message
+    //             console.log("Error:", error);
+    //             alert("Error: " + error);
+    //         }
+    //     });
+    // });
+
+    // $("#signupGmail").click(function() {
+    //     // Send AJAX request for login with Google
+    //     $.ajax({
+    //         url: "backend/signup_google.php",
+    //         type: "POST",
+    //         dataType: "json",
+    //         success: function(response) {
+    //             // Display response message
+    //             console.log("Signup with Google Response:", response);
+    //             alert(response.message);
+    //         },
+    //         error: function(xhr, status, error) {
+    //             // Display error message
+    //             console.log("Error:", error);
+    //             alert("Error: " + error);
+    //         }
+    //     });
+    // });
 
     document.getElementById('profilePicture').addEventListener('click', function() {
         var profileMenu = document.getElementById('profileMenu');

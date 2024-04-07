@@ -33,12 +33,12 @@ if (isset($_POST['user_name'])){
                 $mail->SMTPSecure = "ssl";            
                 $mail->Port       = 465;         
                 //Recipients
-                $mail->setFrom('barms.epcr@gmail.com', 'BARMS OTP');
+                $mail->setFrom('barms.epcr@gmail.com', 'Tailoring System OTP');
                 $mail->addAddress($user_name);
 
                 //Content
                 $mail->isHTML(true);                                  //Set email format to HTML
-                $mail->Subject = 'BARMS OTP';
+                $mail->Subject = 'Tailoring System Change Password OTP';
                 $mail->Body    = 'Please DO NOT show this to anyone. Your OTP is <b>'.$otp.'</b>';
 
                 if($mail->send())
