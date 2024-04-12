@@ -1,0 +1,59 @@
+[10-Apr-2024 16:04:40 Europe/Berlin] PHP Warning:  include(../../conn.php): failed to open stream: No such file or directory in C:\xampp\htdocs\TailoringSystem\admin\functions\add_product.php on line 11
+[10-Apr-2024 16:04:40 Europe/Berlin] PHP Warning:  include(): Failed opening '../../conn.php' for inclusion (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\TailoringSystem\admin\functions\add_product.php on line 11
+[10-Apr-2024 16:04:40 Europe/Berlin] PHP Warning:  Invalid argument supplied for foreach() in C:\xampp\htdocs\TailoringSystem\admin\functions\add_product.php on line 18
+[10-Apr-2024 16:04:40 Europe/Berlin] PHP Notice:  Undefined variable: conn in C:\xampp\htdocs\TailoringSystem\admin\functions\add_product.php on line 43
+[10-Apr-2024 16:04:40 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in C:\xampp\htdocs\TailoringSystem\admin\functions\add_product.php:43
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\TailoringSystem\admin\functions\add_product.php on line 43
+[10-Apr-2024 16:04:54 Europe/Berlin] PHP Warning:  Invalid argument supplied for foreach() in C:\xampp\htdocs\TailoringSystem\admin\functions\add_product.php on line 18
+[10-Apr-2024 16:05:40 Europe/Berlin] PHP Warning:  Invalid argument supplied for foreach() in C:\xampp\htdocs\TailoringSystem\admin\functions\add_product.php on line 18
+[10-Apr-2024 16:06:09 Europe/Berlin] PHP Warning:  Invalid argument supplied for foreach() in C:\xampp\htdocs\TailoringSystem\admin\functions\add_product.php on line 18
+[10-Apr-2024 16:06:47 Europe/Berlin] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in C:\xampp\htdocs\TailoringSystem\admin\functions\add_product.php on line 17
+[10-Apr-2024 16:06:47 Europe/Berlin] PHP Warning:  Invalid argument supplied for foreach() in C:\xampp\htdocs\TailoringSystem\admin\functions\add_product.php on line 18
+[10-Apr-2024 16:40:00 Europe/Berlin] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in C:\xampp\htdocs\TailoringSystem\admin\functions\add_product.php on line 17
+[10-Apr-2024 16:40:00 Europe/Berlin] PHP Notice:  Trying to access array offset on value of type int in C:\xampp\htdocs\TailoringSystem\admin\functions\add_product.php on line 22
+[10-Apr-2024 16:40:40 Europe/Berlin] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in C:\xampp\htdocs\TailoringSystem\admin\functions\add_product.php on line 17
+[10-Apr-2024 16:40:40 Europe/Berlin] PHP Notice:  Trying to access array offset on value of type int in C:\xampp\htdocs\TailoringSystem\admin\functions\add_product.php on line 22
+[10-Apr-2024 16:42:09 Europe/Berlin] PHP Fatal error:  Uncaught Error: Object of class mysqli_stmt could not be converted to string in C:\xampp\htdocs\TailoringSystem\admin\functions\add_product.php:54
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\TailoringSystem\admin\functions\add_product.php on line 54
+[10-Apr-2024 16:42:12 Europe/Berlin] PHP Fatal error:  Uncaught Error: Object of class mysqli_stmt could not be converted to string in C:\xampp\htdocs\TailoringSystem\admin\functions\add_product.php:54
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\TailoringSystem\admin\functions\add_product.php on line 54
+[10-Apr-2024 16:46:28 Europe/Berlin] PHP Warning:  Invalid argument supplied for foreach() in C:\xampp\htdocs\TailoringSystem\admin\functions\add_product.php on line 17
+[10-Apr-2024 16:47:01 Europe/Berlin] PHP Warning:  Invalid argument supplied for foreach() in C:\xampp\htdocs\TailoringSystem\admin\functions\add_product.php on line 17
+[10-Apr-2024 16:57:41 Europe/Berlin] Uploaded images: Array
+(
+)
+
+[10-Apr-2024 16:57:41 Europe/Berlin] Serialized images: a:0:{}
+[10-Apr-2024 16:59:03 Europe/Berlin] Uploaded images: Array
+(
+)
+
+[10-Apr-2024 16:59:03 Europe/Berlin] Serialized images: a:0:{}
+[10-Apr-2024 16:59:53 Europe/Berlin] Uploaded images: Array
+(
+)
+
+[10-Apr-2024 16:59:53 Europe/Berlin] Serialized images: a:0:{}
+[10-Apr-2024 17:02:32 Europe/Berlin] Uploaded images: Array
+(
+)
+
+[10-Apr-2024 17:02:32 Europe/Berlin] Product Name: HAHAHA
+[10-Apr-2024 17:02:32 Europe/Berlin] Product Description: AWYT
+[10-Apr-2024 17:02:32 Europe/Berlin] Product Base Price: 232.33
+[10-Apr-2024 17:02:32 Europe/Berlin] Serialized images: a:0:{}
+[10-Apr-2024 17:04:35 Europe/Berlin] Uploaded images: Array
+(
+)
+
+[10-Apr-2024 17:04:35 Europe/Berlin] Product Name: AFASD
+[10-Apr-2024 17:04:35 Europe/Berlin] Product Description: ASDASD
+[10-Apr-2024 17:04:35 Europe/Berlin] Product Base Price: 23123
+[10-Apr-2024 17:04:35 Europe/Berlin] Serialized images: a:0:{}
+[12-Apr-2024 10:01:35 Europe/Berlin] PHP Notice:  Undefined variable: serializedImages in C:\xampp\htdocs\TailoringSystem\admin\functions\update_product.php on line 47

@@ -15,7 +15,7 @@ session_start();
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>TRBS | Inquiries</title>
-  <link rel="icon" href="../images/icon.jpg"> 
+  <link rel="icon" href="../images/icon.png"> 
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
@@ -49,6 +49,7 @@ session_start();
         </aside>
         <div class="main1">
             <div class="content">
+            <br>
                 <h1>Inquiries</h1>
             </div>
         </div>
