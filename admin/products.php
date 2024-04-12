@@ -389,7 +389,7 @@ $total_pages = ceil($total_records / $records_per_page);
         let formData = new FormData(this);
 
         // Send AJAX request
-        fetch('functions/add_product.php', { // Updated URL
+        fetch('functions/product_add.php', { // Updated URL
             method: 'POST',
             body: formData
         })
@@ -432,7 +432,7 @@ $total_pages = ceil($total_records / $records_per_page);
         let formData = new FormData(this);
 
         // Send AJAX request
-        fetch('functions/update_product.php', { // Updated URL
+        fetch('functions/product_update.php', { // Updated URL
             method: 'POST',
             body: formData
         })
@@ -484,7 +484,7 @@ $total_pages = ceil($total_records / $records_per_page);
     }
  
     // Refresh the table every 30 seconds
-    setInterval(reloadTable, 4000); // Adjust the interval as needed (in milliseconds)
+    setInterval(reloadTable, 5000); // Adjust the interval as needed (in milliseconds)
 
     // Initial table load
     reloadTable();
