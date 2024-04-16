@@ -60,6 +60,7 @@ $total_pages = ceil($total_records / $records_per_page);
             flex: 0 0 auto;
             width: 100%;
             scroll-snap-align: start;
+            margin-right: 10px; /* Add spacing between images */
         }
     </style>
 </head>
@@ -338,7 +339,6 @@ $total_pages = ceil($total_records / $records_per_page);
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <script src="../assets/script.js"></script>
     <script>
     // Activate horizontal scrolling for the image carousel

@@ -4,7 +4,9 @@ include 'includes/conn.php';
 if(!isset($_SESSION['email'])){
   $_SESSION['email'] = "";
 }
-
+  // Query to retrieve products from the database
+  $view = "SELECT * FROM ts_products";
+  $view_rs = $conn->query($view);
 ?>
 <!DOCTYPE html>
 <!-- Coding By CodingNepal - www.codingnepalweb.com -->
@@ -23,7 +25,43 @@ if(!isset($_SESSION['email'])){
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+      .product-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+          gap: 20px;
+      }
 
+      .product-item {
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          padding: 10px;
+          text-align: center;
+      }
+
+      .product-item a {
+          text-decoration: none;
+          color: inherit;
+      }
+
+      .product-item img {
+          max-width: 100%;
+          height: auto;
+          border-radius: 5px;
+      }
+
+      .product-item h3 {
+          margin-top: 10px;
+          margin-bottom: 5px;
+          font-size: 18px;
+      }
+
+      .product-item p {
+          margin: 0;
+          font-size: 16px;
+          color: #888;
+      }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-xl navbar-light" style="background-color: #410093;">
@@ -41,7 +79,6 @@ if(!isset($_SESSION['email'])){
 
             <ul class="navbar-nav navbar-right">
                 <li><a href="index.php">Home</a></li>
-                <li><a href="#">Cart</a></li>
                 <li>
                   <?php 
                     if (isset($_SESSION['email']) && $_SESSION['email'] !== "") {
@@ -175,7 +212,37 @@ if(!isset($_SESSION['email'])){
             <h1>Buhay Shop</h1>
         </div>
     </div>
-
+    <br>
+    <div class="product-grid m-5">
+        <?php 
+        // Loop through your products and display each one
+        while ($row1 = $view_rs->fetch_assoc()) {
+            
+        ?>
+        <div class="product-item">
+            <a href="product_details.php?product_id=<?php echo $row1['product_id']; ?>">
+            <?php
+              if($row1['images'] !== "a:0:{}"){
+                $image_array = unserialize($row1['images']);
+                $first_image_path = $image_array[0];  
+            ?>
+              <img src="<?php echo "admin/". $first_image_path; ?>" alt="Images">
+            <?php
+              }else{
+                $first_image_path = "images/default-image-product.png";
+            ?>
+            <img src="<?php echo $first_image_path; ?>" alt="Images">
+            <?php    
+              }
+            ?>
+                <h3><?php echo $row1['name']; ?></h3>
+                <p>₱<?php echo $row1['base_price']; ?></p>
+            </a>
+        </div>
+        <?php 
+        }
+        ?>
+    </div>
 <!-- Bootstrap Bundle with Popper -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>

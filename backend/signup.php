@@ -106,7 +106,7 @@
                                 $sql_store_otp = "INSERT INTO ts_signup_otp (email, otp) VALUES ('$email', '$otp')";
                                 if ($conn->query($sql_store_otp) === TRUE) {
                                     // Return success response with OTP
-                                    echo json_encode(["success" => true, "message" => "OTP sent to your email: $otp"]);
+                                    echo json_encode(["success" => true, "message" => "OTP has been send to your email"]);
                                 } else {
                                     // Error storing OTP
                                     echo json_encode(["success" => false, "message" => "Error storing OTP."]);

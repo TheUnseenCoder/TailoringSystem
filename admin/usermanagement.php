@@ -6,16 +6,14 @@ include '../includes/conn.php';
 
 $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
 
-// Number of records per page
-$records_per_page = 10; // Adjust as needed
 
-// Query to count total number of records
+$records_per_page = 10;
+
 $total_records_query = "SELECT COUNT(*) AS total_records FROM ts_users";
 $total_records_result = $conn->query($total_records_query);
 $total_records_row = $total_records_result->fetch_assoc();
 $total_records = $total_records_row['total_records'];
 
-// Calculate total pages
 $total_pages = ceil($total_records / $records_per_page);
 
 ?>
@@ -26,7 +24,7 @@ $total_pages = ceil($total_records / $records_per_page);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TRBS | Products</title>
+    <title>TRBS | User Management</title>
     <link rel="icon" href="../images/icon.png"> 
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -60,7 +58,7 @@ $total_pages = ceil($total_records / $records_per_page);
     </aside>
     <div class="main1">
         <br>
-        <center><h1>Products</h1></center>
+        <center><h1>User Management</h1></center>
         <div class="mx-3 my-3">
             <label for="searchInput" class="form-label">Search:</label>
             <input type="text" class="form-control" id="searchInput" onkeyup="searchTable()" placeholder="Enter search terms">
@@ -207,15 +205,11 @@ $total_pages = ceil($total_records / $records_per_page);
 </script>
 
 
-<!-- Script to handle table reload and pagination -->
 <script>
-    // Function to reload the table content and pagination links
     function reloadTable() {
-        // Fetch the table content and pagination links using AJAX
         fetch('functions/fetch_user.php?page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>') 
             .then(response => response.text())
             .then(data => {
-                // Update the table body with the fetched data
                 document.getElementById('myTableBody').innerHTML = data;
             })
             .catch(error => {
@@ -223,10 +217,7 @@ $total_pages = ceil($total_records / $records_per_page);
             });
     }
  
-    // Refresh the table every 30 seconds
-    setInterval(reloadTable, 10000); // Adjust the interval as needed (in milliseconds)
-
-    // Initial table load
+    setInterval(reloadTable, 10000); 
     reloadTable();
 </script>
 </body>
