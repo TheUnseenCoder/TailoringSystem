@@ -7,6 +7,15 @@ include '../../includes/conn.php';
 if (isset($_GET['matrix_name'])) {
     // Get the matrix name from the query string
     $matrix_name = $_GET['matrix_name'];
+
+    // Start building the measurements table
+    $measurements_table = "<center><div class='measurements-container'><br>";
+    $measurements_table .= "<h1>PRODUCTS THAT USE THIS MATRIX</h1></center><br>";
+    $measurements_table .=
+        "<div class='text-end mx-5'>
+            <button type='button' class='btn btn-success' data-bs-toggle='modal' data-bs-target='#addProductModal-". base64_encode($matrix_name) ."'>Add Product</button>
+        </div>";
+
     // Prepare the SQL statement with a placeholder for the matrix name
     $associate_query = "SELECT DISTINCT matrix_name, product_id, ass_id FROM ts_matrices_associate WHERE matrix_name = ?";
 
@@ -27,14 +36,6 @@ if (isset($_GET['matrix_name'])) {
         // Initialize an array to store measurements for each size
         $associate = array();
 
-
-        // Start building the measurements table
-        $measurements_table = "<center><div class='measurements-container'><br>";
-        $measurements_table .= "<h1>PRODUCTS THAT USE THIS MATRIX</h1></center><br>";
-        $measurements_table .=
-            "<div class='text-end mx-5'>
-                <button type='button' class='btn btn-success' data-bs-toggle='modal' data-bs-target='#addProductModal-". base64_encode($matrix_name) ."'>Add Product</button>
-            </div>";
         $measurements_table .= "<center><table id='myTable' class='table text-nowrap mb-0 align-middle' style='justify-content: center;'>";
 
         $measurements_table .=
@@ -62,7 +63,7 @@ if (isset($_GET['matrix_name'])) {
                     <td class='border-bottom-0 text-center'><h6 class='fw-semibold mb-0'>" . $product_name . "</h6></td>
                     <td class='border-bottom-0 text-center'>
                         <a class='btn btn-sm btn-primary me-2' data-bs-toggle='modal' data-bs-target='#view-product". $row['product_id'] ."'>View</a>
-                        <button class='btn btn-sm btn-danger me-2' onclick='confirmDelete(\"" . $row['ass_id'] . "\")'>Remove</button>
+                        <button class='btn btn-sm btn-danger me-2' onclick='confirmDelete2(\"" . $row['ass_id'] . "\")'>Remove</button>
                     </td>
                 </tr>";
 
@@ -70,13 +71,12 @@ if (isset($_GET['matrix_name'])) {
         // Close the table and container
         $measurements_table .= "</tbody></table></div></center>";
 
-        // Return the measurements table
-        echo $measurements_table;
     } else {
         // If no measurements found, return empty content
-        echo "";
+        $measurements_table .= "";
     }
-
+    // Return the measurements table
+    echo $measurements_table;
     // Close the statement
     $stmt->close();
 } else {

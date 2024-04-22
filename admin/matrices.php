@@ -274,9 +274,11 @@ while ($row_meas = $meas_rs->fetch_assoc()) {
 
 <!-- LINK PRODUCT AND MATRIX START-->
 <?php 
- $ma = "SELECT DISTINCT matrix_name FROM ts_matrices_associate";
- $ma_rs = $conn->query($ma);
- while ($row_ma = $ma_rs->fetch_assoc()) {
+$ma = "SELECT DISTINCT matrix_name FROM ts_matrices";
+$ma_rs = $conn->query($ma);
+while ($row_ma = $ma_rs->fetch_assoc()) {
+    // Generate unique ID for the form
+    $form_id = "addProductForm_" . base64_encode($row_ma['matrix_name']);
 ?>
 <div class="modal fade" id="addProductModal-<?php echo base64_encode($row_ma['matrix_name']); ?>" tabindex="-1" aria-labelledby="addProductLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -287,33 +289,35 @@ while ($row_meas = $meas_rs->fetch_assoc()) {
             </div>
             <div class="modal-body">
                 <!-- Form for adding a product -->
-                <form id="addProductForm" enctype="multipart/form-data">
+                <!-- Use the unique form ID -->
+                <form id="<?php echo $form_id; ?>" enctype="multipart/form-data">
                     <!-- Product Name -->
                     <div class="mb-3">
                         <div class="row">
                             <div class="col-6">
                                 <label>Product Name:</label><br>
                                 <select name="productName" required>
-                                <option value="none" selected disabled>Please Select a Product</option>
+                                    <option value="none" selected disabled>Please Select a Product</option>
                                     <?php 
-                                        $view = "SELECT * FROM ts_products";
-                                        $view_rs = $conn->query($view);
-                                        while ($row1 = $view_rs->fetch_assoc()) {
+                                    $view = "SELECT * FROM ts_products";
+                                    $view_rs = $conn->query($view);
+                                    while ($row1 = $view_rs->fetch_assoc()) {
                                     ?>
-                                        <option value="<?php echo $row1['name']; ?>"><?php echo $row1['name']; ?></option>
+                                    <option value="<?php echo $row1['name']; ?>"><?php echo $row1['name']; ?></option>
                                     <?php 
-                                        }
+                                    }
                                     ?>
                                 </select>
                             </div>
                             <div class="col-6">
                                 <label>Matrix Name:</label><br>
-                                <input type="text" name="matrix_name" value="<?php echo $row_ma['matrix_name']; ?>" required>
+                                <input type="text" value="<?php echo $row_ma['matrix_name']; ?>" disabled>
+                                <input type="hidden" name="matrix_name" value="<?php echo $row_ma['matrix_name']; ?>" required>
                             </div>
                         </div>
                     </div>
                     <center>
-                        <button type="submit" id="addProduct" class="btn btn-primary">Add Product</button>
+                        <button type="submit" class="btn btn-primary">Add Product</button>
                         <br><br>
                     </center>
                 </form>
@@ -322,7 +326,7 @@ while ($row_meas = $meas_rs->fetch_assoc()) {
     </div>
 </div>
 <?php 
-    }
+}
 ?>
 <!-- LINK PRODUCT AND MATRIX DONE-->
 
@@ -644,385 +648,100 @@ while ($row_meas = $meas_rs->fetch_assoc()) {
     }
 ?>
 <!-- LINK PRODUCT AND MATRIX DONE-->
+
+<!-- ADD MATRIX START-->
+<div class="modal fade" id="addMatrix" tabindex="-1" aria-labelledby="addMatrixLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addMatrixLabel">Add Matrix</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Form for adding a product -->
+                <form id="addMatrixForm" enctype="multipart/form-data">
+
+                    <!-- Measurement Name -->
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-6">
+                                <label>Matrix Name:</label><br>
+                                <input type="text" name="matrix_name" required>
+                            </div>
+                            <div class="col-6">
+                                <label>Size:</label><br>
+                                <input type="text" name="size_name" required>
+                            </div>
+                        </div>
+                    </div><br>
+                        
+                   <!-- Your HTML markup -->
+                    <div id="measurementContainer">
+                        <hr>
+                        <div class="row">
+                            <!-- Size Name -->
+                            <div class="col-4">
+                                <label>Measurement Name:</label><br>
+                                <input type="text" name="measurement_name[]" required>
+                            </div>
+                            <!-- Measurement Size -->
+                            <div class="col-4">
+                                <label>Measurement Size:</label><br>
+                                <input type="text" name="measurement_size[]" required>
+                            </div>
+                            <!-- Additional -->
+                            <div class="col-4">
+                                <label>Additional:</label><br>
+                                <input type="number" name="additional" value="0.00" step="0.01" min="0" required>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <center>
+                        <button type="button" class="btn btn-success add-measurement-btn">Add Measurement</button>
+                        <button type="button" class="btn btn-danger remove-measurement-btn">Remove Measurement</button>
+                    </center>
+                    <br>
+                    <center>
+                        <button type="submit" class="btn btn-primary">Add Matrix</button>
+                        <br><br>
+                    </center>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ADD MATRIX DONE-->
   
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../assets/script.js"></script>
-    <script>
-    // Activate horizontal scrolling for the image carousel
-    $('.image-carousel').on('mousewheel', function (e) {
-        e.preventDefault();
-        $(this).scrollLeft($(this).scrollLeft() + e.originalEvent.deltaY);
-    });
-</script>
-    <script>
-    function searchTable() {
-        const input = document.getElementById('searchInput');
-        const filter = input.value.toUpperCase();
-        const table = document.getElementById('myTable');
-        const rows = table.getElementsByTagName('tr');
-
-        for (let i = 1; i < rows.length; i++) {
-            const cells = rows[i].getElementsByTagName('td');
-            let found = false;
-
-            for (let j = 0; j < cells.length; j++) {
-                const cell = cells[j];
-                if (cell) {
-                    const textValue = cell.textContent || cell.innerText;
-
-                    if (textValue.toUpperCase().indexOf(filter) > -1) {
-                        found = true;
-                        break;
-                    }
-                }
-            }
-
-            if (found) {
-                rows[i].style.display = '';
-                rows[i].classList.remove('highlight');
-            } else {
-                rows[i].style.display = 'none';
-            }
+    <!-- Include SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
+    <script src="script.js"></script>
+   <script>
+        // Function to reload the table content and pagination links
+        function reloadTable() {
+            // Fetch the table content and pagination links using AJAX
+            fetch('functions/fetch_matrix.php?page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>') 
+                .then(response => response.text())
+                .then(data => {
+                    // Update the table body with the fetched data
+                    document.getElementById('myTableBody').innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error fetching table content:', error);
+                });
         }
-    }
-</script>
 
-<!-- Script to handle table reload and pagination -->
-<script>
-    // Function to reload the table content and pagination links
-    function reloadTable() {
-        // Fetch the table content and pagination links using AJAX
-        fetch('functions/fetch_matrix.php?page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>') 
-            .then(response => response.text())
-            .then(data => {
-                // Update the table body with the fetched data
-                document.getElementById('myTableBody').innerHTML = data;
-            })
-            .catch(error => {
-                console.error('Error fetching table content:', error);
-            });
-    }
- 
-    // Refresh the table every 30 seconds
-    setInterval(reloadTable, 5000); // Adjust the interval as needed (in milliseconds)
+        // Refresh the table every 30 seconds
+        setInterval(reloadTable, 5000); // Adjust the interval as needed (in milliseconds)
 
-    // Initial table load
-    reloadTable();
-</script>
-<!-- Include SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-<!-- JavaScript code to handle form submission -->
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    // Get the form element
-    var form = document.getElementById("addProductForm");
-
-    // Function to handle form submission
-    function submitForm() {
-        // Create FormData object to store form data
-        var formData = new FormData(form);
-
-        // Send AJAX request to the backend PHP script
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "functions/add_product_to_matrix.php");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    // Check the response from the server
-                    var response = xhr.responseText.trim();
-                    if (response.startsWith("Success:")) {
-                        // Success message using SweetAlert2
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success!',
-                            text: response.substring(8) // Remove "Success:" prefix from the response
-                        });
-                    } else {
-                        // Error message using SweetAlert2
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error!',
-                            text: response.substring(6) // Remove "Error:" prefix from the response
-                        });
-                    }
-                } else {
-                    // Error message using SweetAlert2
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error!',
-                        text: 'Error occurred while adding product: ' + xhr.status
-                    });
-                }
-            }
-        };
-        xhr.send(formData);
-    }
-
-    // Add event listener for form submission
-    form.addEventListener("submit", function(event) {
-        // Prevent default form submission
-        event.preventDefault();
-
-        // Call the function to handle form submission
-        submitForm();
-    });
-});
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    // Get the form elements
-    var forms = document.querySelectorAll("form[id^='addSizeForm']");
-
-    // Function to handle form submission
-    function submitForm(event) {
-        // Prevent default form submission
-        event.preventDefault();
-
-        // Create FormData object to store form data
-        var formData = new FormData(this);
-
-        // Send AJAX request to the backend PHP script
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "functions/add_product_size.php");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    // Check the response from the server
-                    var response = xhr.responseText.trim();
-                    if (response.startsWith("Success:")) {
-                        // Success message using SweetAlert2
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success!',
-                            text: 'Size added successfully' // Remove "Success:" prefix from the response
-                        });
-                    } else {
-                        // Error message using SweetAlert2
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error!',
-                            text: response.substring(6) // Remove "Error:" prefix from the response
-                        });
-                    }
-                } else {
-                    // Error message using SweetAlert2
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error!',
-                        text: 'Error occurred while adding size: ' + xhr.status
-                    });
-                }
-            }
-        };
-        xhr.send(formData);
-    }
-
-    // Add event listener for form submission to each form
-    forms.forEach(function(form) {
-        form.addEventListener("submit", submitForm);
-    });
-});
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    // Get all form elements with IDs starting with "addMeasurementForm-"
-    var forms = document.querySelectorAll('form[id^="addMeasurementForm-"]');
-
-    // Function to handle form submission
-    function submitForm3(event) {
-        // Prevent default form submission
-        event.preventDefault();
-
-        // Get the form element
-        var form = event.target;
-
-        // Create FormData object to store form data
-        var formData = new FormData(form);
-
-        // Send AJAX request to the backend PHP script
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "functions/add_product_measurement.php");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    // Check the response from the server
-                    var response = xhr.responseText.trim();
-                    if (response.startsWith("Success:")) {
-                        // Success message using SweetAlert2
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success!',
-                            text: 'Measurement added successfully' // Remove "Success:" prefix from the response
-                        });
-                    } else {
-                        // Error message using SweetAlert2
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error!',
-                            text: response.substring(6) // Remove "Error:" prefix from the response
-                        });
-                    }
-                } else {
-                    // Error message using SweetAlert2
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error!',
-                        text: 'Error occurred while adding product: ' + xhr.status
-                    });
-                }
-            }
-        };
-        xhr.send(formData);
-    }
-
-    // Add event listener for form submission for each form
-    forms.forEach(function(form) {
-        form.addEventListener("submit", submitForm3);
-    });
-});
-
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    // Get all form elements with IDs starting with "addMeasurementForm-"
-    var forms = document.querySelectorAll('form[id^="updateMatrixForm"]');
-
-    // Function to handle form submission
-    function submitForm4(event) {
-        // Prevent default form submission
-        event.preventDefault();
-
-        // Get the form element
-        var form = event.target;
-
-        // Create FormData object to store form data
-        var formData = new FormData(form);
-
-        // Send AJAX request to the backend PHP script
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "functions/update_measurement.php");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    // Check the response from the server
-                    var response = xhr.responseText.trim();
-                    if (response.startsWith("Success:")) {
-                        // Success message using SweetAlert2
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success!',
-                            text: 'Measurement added successfully' // Remove "Success:" prefix from the response
-                        });
-                    } else {
-                        // Error message using SweetAlert2
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error!',
-                            text: response.substring(6) // Remove "Error:" prefix from the response
-                        });
-                    }
-                } else {
-                    // Error message using SweetAlert2
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error!',
-                        text: 'Error occurred while adding product: ' + xhr.status
-                    });
-                }
-            }
-        };
-        xhr.send(formData);
-    }
-
-    // Add event listener for form submission for each form
-    forms.forEach(function(form) {
-        form.addEventListener("submit", submitForm4);
-    });
-});
-
-</script>
-
-<script>
-function confirmDelete(matrixNumber) {
-    Swal.fire({
-        title: 'Are you sure?',
-        text: 'You are about to delete this matrix!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'Cancel'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // If user confirms, send AJAX request
-            $.ajax({
-                type: 'POST',
-                url: 'functions/delete_measurement.php',
-                data: { matrix_number : matrixNumber },
-                success: function(response) {
-                    // Handle success response
-                    if (response === 'success') {
-                        Swal.fire('Deleted!', 'The item has been deleted.', 'success');
-                        // Reload or update the view modal here
-                    } else {
-                        Swal.fire('Error!', 'Something went wrong during deletion.', 'error');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    // Log the error in the console
-                    console.error(xhr.responseText);
-                    // Handle error response
-                    Swal.fire('Error!', 'Failed to delete the item.', 'error');
-                }
-            });
-        }
-    });
-}
-</script>
-
-<script>
-function confirmDelete(assID) {
-    Swal.fire({
-        title: 'Are you sure?',
-        text: 'You are about to remove this product in matrix!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, remove it!',
-        cancelButtonText: 'Cancel'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // If user confirms, send AJAX request
-            $.ajax({
-                type: 'POST',
-                url: 'functions/remove_products_in_matrix.php',
-                data: { ass_id : assID },
-                success: function(response) {
-                    // Handle success response
-                    if (response === 'success') {
-                        Swal.fire('Removed!', 'The product has been removed in the matrix.', 'success');
-                        // Reload or update the view modal here
-                    } else {
-                        Swal.fire('Error!', 'Something went wrong during deletion.', 'error');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    // Log the error in the console
-                    console.error(xhr.responseText);
-                    // Handle error response
-                    Swal.fire('Error!', 'Failed to remove the product in the matrix.', 'error');
-                }
-            });
-        }
-    });
-}
-</script>
+        // Initial table load
+        reloadTable();
+   </script>
 
 
 
