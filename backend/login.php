@@ -23,6 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $row = $result->fetch_assoc();
             $_SESSION['email'] = $email;
             $_SESSION['user_type'] = $row['usertype']; // Store user type in session
+            $_SESSION["loggedinasadmin"] = true;
             echo json_encode(["success" => true, "message" => "Login successful!", "user_type" => $row['usertype']]);
         } else {
             // Login failed

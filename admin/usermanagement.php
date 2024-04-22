@@ -3,6 +3,7 @@
 session_start();
 
 include '../includes/conn.php';
+if(isset($_SESSION["loggedinasadmin"])){
 
 $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
 
@@ -222,3 +223,9 @@ $total_pages = ceil($total_records / $records_per_page);
 </script>
 </body>
 </html>
+<?php 
+}else{
+  header("location: ../index.php");
+  exit;
+}
+?>

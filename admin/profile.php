@@ -1,6 +1,7 @@
 <?php
 session_start();
 include '../includes/conn.php';
+if(isset($_SESSION["loggedinasadmin"])){
 
 // Query to fetch the admin's profile information
 $sql = "SELECT * FROM ts_users WHERE usertype = 0"; // Assuming usertype 0 represents the admin
@@ -162,3 +163,9 @@ if ($result && $result->num_rows == 1) {
 
 </body>
 </html>
+<?php 
+}else{
+  header("location: ../index.php");
+  exit;
+}
+?>

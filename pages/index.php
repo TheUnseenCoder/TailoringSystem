@@ -1,5 +1,8 @@
 <?php
 session_start();
+if(isset($_SESSION["loggedinasadmin"]) || isset($_SESSION["loggedinasmainuser"])){
+    header("Location: ../admin/");
+}
 ?>
 <!DOCTYPE html>
 <!-- Coding By CodingNepal - www.codingnepalweb.com -->

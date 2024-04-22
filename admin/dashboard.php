@@ -2,9 +2,7 @@
 
 session_start();
 
-// include '../../conn.php';
-
-// if(isset($_SESSION["loggedinasadmin"]) || isset($_SESSION["loggedinasmainuser"])){
+include '../includes/conn.php';if(isset($_SESSION["loggedinasadmin"])){
   
 ?>
 <!DOCTYPE html>
@@ -65,8 +63,8 @@ session_start();
 </html>
 
 <?php 
-// }else{
-//   header("location: ../../index.php");
-//   exit;
-// }
+}else{
+  header("location: ../index.php");
+  exit;
+}
 ?>

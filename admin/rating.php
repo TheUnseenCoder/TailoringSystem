@@ -1,6 +1,7 @@
 <?php
 session_start();
 include '../includes/conn.php';
+if(isset($_SESSION["loggedinasadmin"])){
 
 ?>
 
@@ -57,3 +58,9 @@ include '../includes/conn.php';
 
 </body>
 </html>
+<?php 
+}else{
+  header("location: ../index.php");
+  exit;
+}
+?>
