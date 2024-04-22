@@ -73,7 +73,7 @@ $total_pages = ceil($total_records / $records_per_page);
         <br>
         <center><h1>Matrices</h1></center>
         <div class="text-end mx-5">
-            <button type='button' class="btn btn-success" data-bs-toggle='modal' data-bs-target='#addProductModal'>Add Product</button>
+            <button type='button' class="btn btn-success" data-bs-toggle='modal' data-bs-target='#addMatrix'>Add Matrix</button>
         </div>
         <div class="mx-3 my-3">
             <label for="searchInput" class="form-label">Search:</label>
@@ -118,27 +118,25 @@ $total_pages = ceil($total_records / $records_per_page);
 
 <!-- ADD MEASUREMENT START-->
 <?php 
-$mas = "SELECT DISTINCT matrix_name FROM ts_matrices";
-$mas_rs = $conn->query($mas);
-while ($row_mas = $mas_rs->fetch_assoc()) {
+$sizes = "SELECT DISTINCT matrix_name FROM ts_matrices";
+$sizes_rs = $conn->query($sizes);
+while ($row_sizes = $sizes_rs->fetch_assoc()) {
 ?>
-<div class="modal fade" id="addMeasurement-<?php echo base64_encode($row_mas['matrix_name']); ?>" tabindex="-1" aria-labelledby="addMeasurementLabel" aria-hidden="true">
+<div class="modal fade" id="addMeasurement-<?php echo base64_encode($row_sizes['matrix_name']); ?>" tabindex="-1" aria-labelledby="addMeasurementLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addMeasurementLabel">Add Measurement</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle='modal' data-bs-target='#view-modal<?php echo base64_encode($row_mas['matrix_name']); ?>'></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle='modal' data-bs-target='#view-modal<?php echo base64_encode($row_sizes['matrix_name']); ?>'></button>
             </div>
             <div class="modal-body">
                 <!-- Form for adding a product -->
-                <form id="addMeasurementForm-<?php echo base64_encode($row_mas['matrix_name']); ?>" enctype="multipart/form-data">
-                    <!-- Matrix Name -->
-                    <input type="hidden" name="matrix_name" value="<?php echo $row_mas['matrix_name']; ?>">
+                <form id="addMeasurementForm-<?php echo base64_encode($row_sizes['matrix_name']); ?>" enctype="multipart/form-data">
 
                     <!-- Measurement Name -->
                     <div class="mb-3">
                         <label>Matrix Name:</label><br>
-                        <center><h2><?php echo $row_mas['matrix_name']; ?></h2></center>
+                        <center><h2><?php echo $row_sizes['matrix_name']; ?></h2></center>
                         <div class="row">
                         <label>Measurement Name:</label><br>
                             <div class="col-4">
@@ -151,31 +149,35 @@ while ($row_mas = $mas_rs->fetch_assoc()) {
                     </div>
 
                     <?php 
-                    $views = "SELECT DISTINCT size_name FROM ts_matrices";
-                    $views_rs = $conn->query($views);
-                    while ($row1s = $views_rs->fetch_assoc()) {
-                    ?>
-                    <hr>
-                    <div class="row">
-                        <!-- Size Name -->
-                        <div class="col-4">
-                            <label>Size Name:</label><br>
-                            <input type="text" name="size_name" value="<?php echo $row1s['size_name']; ?>" required disabled>
+                        $matrix_name = mysqli_real_escape_string($conn, $row_sizes['matrix_name']);
+                        $size = "SELECT DISTINCT size_name FROM ts_matrices WHERE matrix_name = '$matrix_name'";
+                        $size_rs = $conn->query($size);
+                        while ($row_size = $size_rs->fetch_assoc()) {
+                        ?>
+                        <hr>
+                        <div class="row">
+                            <!-- Size Name -->
+                            <div class="col-4">
+                                <label>Size Name:</label><br>
+                                <input type="text" value="<?php echo $row_size['size_name']; ?>" required disabled>
+                                <input type="hidden" name="size_name[]" value="<?php echo $row_size['size_name']; ?>" required>
+                                <input type="hidden" name="matrix_name" value="<?php echo $row_sizes['matrix_name']; ?>" required>
+                            </div>
+                            <!-- Measurement Size -->
+                            <div class="col-4">
+                                <label>Measurement Size:</label><br>
+                                <input type="text" name="measurement_size[]" required>
+                            </div>
+                            <!-- Additional -->
+                            <div class="col-4">
+                                <label>Additional:</label><br>
+                                <input type="number" name="additional" value="0.00" step="0.01" min="0" required>
+                            </div>
                         </div>
-                        <!-- Measurement Size -->
-                        <div class="col-4">
-                            <label>Measurement Size:</label><br>
-                            <input type="text" name="measurement_size" required>
-                        </div>
-                        <!-- Additional -->
-                        <div class="col-4">
-                            <label>Additional:</label><br>
-                            <input type="number" name="additional" value="0.00" step="0.01" min="0" required>
-                        </div>
-                    </div>
                     <?php 
                     }
-                    ?><br>
+                    ?>
+                        <br>
                     <center>
                         <button type="submit" class="btn btn-primary">Add Measurement</button>
                         <br><br>
@@ -190,31 +192,30 @@ while ($row_mas = $mas_rs->fetch_assoc()) {
 ?>
 <!-- ADD MEASUREMENT DONE-->
 
+
 <!-- ADD SIZE START-->
 <?php 
-$mas = "SELECT DISTINCT matrix_name FROM ts_matrices";
-$mas_rs = $conn->query($mas);
-while ($row_mas = $mas_rs->fetch_assoc()) {
+$meas = "SELECT DISTINCT matrix_name FROM ts_matrices";
+$meas_rs = $conn->query($meas);
+while ($row_meas = $meas_rs->fetch_assoc()) {
 ?>
-<div class="modal fade" id="addSize-<?php echo base64_encode($row_mas['matrix_name']); ?>" tabindex="-1" aria-labelledby="addSizeLabel" aria-hidden="true">
+<div class="modal fade" id="addSize-<?php echo base64_encode($row_meas['matrix_name']); ?>" tabindex="-1" aria-labelledby="addSizeLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addSizeLabel">Add Size</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle='modal' data-bs-target='#view-modal<?php echo base64_encode($row_mas['matrix_name']); ?>'></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle='modal' data-bs-target='#view-modal<?php echo base64_encode($row_meas['matrix_name']); ?>'></button>
             </div>
             <div class="modal-body">
                 <!-- Form for adding a product -->
-                <form id="addSizeForm-<?php echo base64_encode($row_mas['matrix_name']); ?>" enctype="multipart/form-data">
-                    <!-- Matrix Name -->
-                    <input type="hidden" name="matrix_name" value="<?php echo $row_mas['matrix_name']; ?>">
+                <form id="addSizeForm-<?php echo base64_encode($row_meas['matrix_name']); ?>" enctype="multipart/form-data">
 
-                    <!-- Measurement Name -->
+                    <!-- Matrix Name -->
                     <div class="mb-3">
                         <label>Matrix Name:</label><br>
-                        <center><h2><?php echo $row_mas['matrix_name']; ?></h2></center>
+                        <center><h2><?php echo $row_meas['matrix_name']; ?></h2></center>
                         <div class="row">
-                        <label>Size Name:</label><br>
+                            <label>Size Name:</label><br>
                             <div class="col-4">
                                 <input type="text" name="size_name" required>
                             </div>
@@ -225,21 +226,26 @@ while ($row_mas = $mas_rs->fetch_assoc()) {
                     </div>
 
                     <?php 
-                    $views = "SELECT DISTINCT measurement_name FROM ts_matrices";
-                    $views_rs = $conn->query($views);
-                    while ($row1s = $views_rs->fetch_assoc()) {
+                    $matrix_name = mysqli_real_escape_string($conn, $row_meas['matrix_name']);
+                    $measurement = "SELECT DISTINCT measurement_name FROM ts_matrices WHERE matrix_name = '$matrix_name'";
+                    $measurement_rs = $conn->query($measurement);
+                    while ($row_measurement = $measurement_rs->fetch_assoc()) {
                     ?>
                     <hr>
                     <div class="row">
-                        <!-- Size Name -->
+                        <!-- Measurement Name -->
                         <div class="col-4">
                             <label>Measurement Name:</label><br>
-                            <input type="text" name="measurement_name" value="<?php echo $row1s['measurement_name']; ?>" required disabled>
+                            <input type="text" value="<?php echo $row_measurement['measurement_name']; ?>" required disabled>
+                            <input type="hidden" name="measurement_name[]" value="<?php echo $row_measurement['measurement_name']; ?>" required>
+                            <!-- Matrix Name -->
+                            <input type="hidden" name="matrix_name" value="<?php echo $row_meas['matrix_name']; ?>">
+
                         </div>
                         <!-- Measurement Size -->
                         <div class="col-4">
                             <label>Measurement Size:</label><br>
-                            <input type="text" name="measurement_size" required>
+                            <input type="text" name="measurement_size[]" required>
                         </div>
                         <!-- Additional -->
                         <div class="col-4">
@@ -249,7 +255,8 @@ while ($row_mas = $mas_rs->fetch_assoc()) {
                     </div>
                     <?php 
                     }
-                    ?><br>
+                    ?>
+                    <br>
                     <center>
                         <button type="submit" class="btn btn-primary">Add Size</button>
                         <br><br>
@@ -513,10 +520,130 @@ while ($row_mas = $mas_rs->fetch_assoc()) {
 </div>
 <?php
  }
+ ?>
+
+ <?php
+// Query to fetch all unique matrix names
+    $matrix_query = "SELECT DISTINCT matrix_name FROM ts_matrices";
+    $matrix_result = $conn->query($matrix_query);
+
+    // Check if there are matrices available
+    if ($matrix_result->num_rows > 0) {
+        // Loop through each matrix
+        while ($matrix_row = $matrix_result->fetch_assoc()) {
+            // Fetch the matrix name and encode it for ID generation
+            $matrix_name = $matrix_row['matrix_name'];
+            $matrix_name_base64 = base64_encode($matrix_name);
 ?>
-<!-- END OF VIEW PRODUCTS -->
+            <!-- Modal for viewing matrix details -->
+            <div class="modal fade" id="update-modal<?php echo $matrix_name_base64;?>" tabindex="-1" aria-labelledby="updateProductModal" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="updateProductModal">Edit Matrix</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label>Matrix Name:</label><br>
+                                        <center><h3><?php echo $matrix_name; ?></h3></center>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Display measurements for the current matrix -->
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <!-- Measurements container will be populated dynamically using JavaScript -->
+                                        <div id="measurements-update-container-<?php echo $matrix_name_base64; ?>"></div>
+                                    </div>
+                                </div>
+                            </div>
 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- JavaScript to fetch and display measurements for the current matrix -->
+        <script>
+            function fetchAndDisplayMeasurements() {
+                // Fetch and display measurements for the current matrix
+                fetch('functions/fetch_update_measurement.php?matrix_name=<?php echo urlencode($matrix_name); ?>')
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById('measurements-update-container-<?php echo $matrix_name_base64; ?>').innerHTML = data;
+                    });
+            }
 
+            // Fetch and display measurements initially
+            fetchAndDisplayMeasurements();
+
+            // Reload measurements every 5 seconds
+            setInterval(fetchAndDisplayMeasurements, 5000);
+        </script>
+
+<?php 
+        }
+    }
+?>
+
+<!-- UPDATING MATRIX START-->
+<?php 
+ $update = "SELECT * FROM ts_matrices";
+ $update_rs = $conn->query($update);
+ while ($update_row = $update_rs->fetch_assoc()) {
+?>
+<div class="modal fade" id="updating-modal<?php echo $update_row['matrix_id']; ?>" tabindex="-1" aria-labelledby="updatingMeasurement" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updatingMeasurement">Update Measurement</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle='modal' data-bs-target='#update-modal<?php echo base64_encode($update_row['matrix_name']); ?>'></button>
+            </div>
+            <div class="modal-body">
+                <!-- Form for adding a product -->
+                <form id="updateMatrixForm" enctype="multipart/form-data">
+                    <!-- Product Name -->
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-6">
+                                <label>Measurement Name:</label><br>
+                                <input type="text" name="measurement_name" value="<?php echo $update_row['measurement_name']; ?>" required>
+                                <input type="hidden" name="matrix_id" value="<?php echo $update_row['matrix_id']; ?>" required>
+                            </div>
+                            <div class="col-6">
+                                <label>Measurement Size:</label><br>
+                                <input type="text" name="measurement_size" value="<?php echo $update_row['measurement_size']; ?>" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-6">
+                                <label>Size Name:</label><br>
+                                <input type="text" name="size_name" value="<?php echo $update_row['size_name']; ?>" required>
+                            </div>
+                            <div class="col-6">
+                                <label>Additional:</label><br>
+                                <input  type="number" name="additional" step="0.01" min="0" value="<?php echo $update_row['additional']; ?>" required>
+                            </div>
+                        </div>
+                    </div>
+                    <center>
+                        <button type="submit" id="updateMeasurement" class="btn btn-primary">Update Measurement</button>
+                        <br><br>
+                    </center>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<?php 
+    }
+?>
+<!-- LINK PRODUCT AND MATRIX DONE-->
   
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
@@ -588,8 +715,6 @@ while ($row_mas = $mas_rs->fetch_assoc()) {
 <!-- Include SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<!-- Include SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- JavaScript code to handle form submission -->
 <script>
@@ -647,6 +772,219 @@ document.addEventListener("DOMContentLoaded", function() {
         submitForm();
     });
 });
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Get the form elements
+    var forms = document.querySelectorAll("form[id^='addSizeForm']");
+
+    // Function to handle form submission
+    function submitForm(event) {
+        // Prevent default form submission
+        event.preventDefault();
+
+        // Create FormData object to store form data
+        var formData = new FormData(this);
+
+        // Send AJAX request to the backend PHP script
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "functions/add_product_size.php");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    // Check the response from the server
+                    var response = xhr.responseText.trim();
+                    if (response.startsWith("Success:")) {
+                        // Success message using SweetAlert2
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'Size added successfully' // Remove "Success:" prefix from the response
+                        });
+                    } else {
+                        // Error message using SweetAlert2
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: response.substring(6) // Remove "Error:" prefix from the response
+                        });
+                    }
+                } else {
+                    // Error message using SweetAlert2
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'Error occurred while adding size: ' + xhr.status
+                    });
+                }
+            }
+        };
+        xhr.send(formData);
+    }
+
+    // Add event listener for form submission to each form
+    forms.forEach(function(form) {
+        form.addEventListener("submit", submitForm);
+    });
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Get all form elements with IDs starting with "addMeasurementForm-"
+    var forms = document.querySelectorAll('form[id^="addMeasurementForm-"]');
+
+    // Function to handle form submission
+    function submitForm3(event) {
+        // Prevent default form submission
+        event.preventDefault();
+
+        // Get the form element
+        var form = event.target;
+
+        // Create FormData object to store form data
+        var formData = new FormData(form);
+
+        // Send AJAX request to the backend PHP script
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "functions/add_product_measurement.php");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    // Check the response from the server
+                    var response = xhr.responseText.trim();
+                    if (response.startsWith("Success:")) {
+                        // Success message using SweetAlert2
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'Measurement added successfully' // Remove "Success:" prefix from the response
+                        });
+                    } else {
+                        // Error message using SweetAlert2
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: response.substring(6) // Remove "Error:" prefix from the response
+                        });
+                    }
+                } else {
+                    // Error message using SweetAlert2
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'Error occurred while adding product: ' + xhr.status
+                    });
+                }
+            }
+        };
+        xhr.send(formData);
+    }
+
+    // Add event listener for form submission for each form
+    forms.forEach(function(form) {
+        form.addEventListener("submit", submitForm3);
+    });
+});
+
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Get all form elements with IDs starting with "addMeasurementForm-"
+    var forms = document.querySelectorAll('form[id^="updateMatrixForm"]');
+
+    // Function to handle form submission
+    function submitForm4(event) {
+        // Prevent default form submission
+        event.preventDefault();
+
+        // Get the form element
+        var form = event.target;
+
+        // Create FormData object to store form data
+        var formData = new FormData(form);
+
+        // Send AJAX request to the backend PHP script
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "functions/update_measurement.php");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    // Check the response from the server
+                    var response = xhr.responseText.trim();
+                    if (response.startsWith("Success:")) {
+                        // Success message using SweetAlert2
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'Measurement added successfully' // Remove "Success:" prefix from the response
+                        });
+                    } else {
+                        // Error message using SweetAlert2
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: response.substring(6) // Remove "Error:" prefix from the response
+                        });
+                    }
+                } else {
+                    // Error message using SweetAlert2
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'Error occurred while adding product: ' + xhr.status
+                    });
+                }
+            }
+        };
+        xhr.send(formData);
+    }
+
+    // Add event listener for form submission for each form
+    forms.forEach(function(form) {
+        form.addEventListener("submit", submitForm4);
+    });
+});
+
+</script>
+
+<script>
+function confirmDelete(matrixNumber) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'You are about to delete this matrix!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // If user confirms, send AJAX request
+            $.ajax({
+                type: 'POST',
+                url: 'functions/delete_measurement.php',
+                data: { matrix_number : matrixNumber },
+                success: function(response) {
+                    // Handle success response
+                    if (response === 'success') {
+                        Swal.fire('Deleted!', 'The item has been deleted.', 'success');
+                        // Reload or update the view modal here
+                    } else {
+                        Swal.fire('Error!', 'Something went wrong during deletion.', 'error');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Log the error in the console
+                    console.error(xhr.responseText);
+                    // Handle error response
+                    Swal.fire('Error!', 'Failed to delete the item.', 'error');
+                }
+            });
+        }
+    });
+}
 </script>
 
 

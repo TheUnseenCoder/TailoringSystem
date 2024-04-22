@@ -3,7 +3,7 @@ $(document).ready(function() {
         var formData = $("#loginForm").serialize();
 
         $.ajax({
-            url: "backend/login.php",
+            url: "../backend/login.php",
             type: "POST",
             data: formData,
             dataType: "json",
@@ -16,9 +16,7 @@ $(document).ready(function() {
                     }).then((result) => {
                         if (result.isConfirmed || result.isDismissed) {
                             if (response.user_type === '0') {
-                                window.location.href = "admin/index.php";
-                            } else {
-                                window.location.href = "index.php";
+                                window.location.href = "../admin/index.php";
                             }
                         }
                     });
@@ -38,76 +36,44 @@ $(document).ready(function() {
                 });
             }
         });
-    });
+    });  
 
-    $("#signupManual").click(function() {
-        var formData = $("#SignUpForm").serialize() + "&signupAction=true";
+    // Event listener for form submission
+    $("#submitBtn").click(function() {
+        // Serialize form data
+        var formData = $("#inquiryForm").serialize();
 
+        // AJAX request to submit the form data
         $.ajax({
-            url: "backend/signup.php",
+            url: "backend/submit_inquiry.php",
             type: "POST",
             data: formData,
             dataType: "json",
             success: function(response) {
+                // Handle the response from the server
                 if (response.success) {
+                    // If inquiry is submitted successfully, show a success message
                     Swal.fire({
                         icon: 'success',
                         title: 'Success',
                         text: response.message,
                     }).then((result) => {
                         if (result.isConfirmed || result.isDismissed) {
-                            window.location.href = "index.php";
+                            // Clear form fields
+                            $("#inquiryForm")[0].reset();
                         }
                     });
                 } else {
+                    // If there's an error, show an error message
                     Swal.fire({
                         icon: 'error',
-                        title: 'Oops... ',
+                        title: 'Error',
                         text: response.message,
                     });
                 }
             },
             error: function(xhr, status, error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops... 1',
-                    text: 'Error occurred: ' + error,
-                });
-            }
-        });
-    });
-
-    // Event delegation for dynamically generated #submitOTP button
-    $(document).on("click", "#submitOTP", function() {
-        var formData = $("#SignUpForm").serialize() + "&otpAction=true";
-
-        $.ajax({
-            url: "backend/signup.php",
-            type: "POST",
-            data: formData,
-            dataType: "json",
-            success: function(response) {
-                if (response.success) {
-                    var successToast = Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: response.message,
-                        showConfirmButton: false // Hide the confirm button
-                    });
-
-                    // Automatically close the success message after 3 seconds
-                    setTimeout(function() {
-                        successToast.close();
-                    }, 3000);
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: response.message,
-                    });
-                }
-            },
-            error: function(xhr, status, error) {
+                // If there's an error in the AJAX request, show an error message
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -116,13 +82,5 @@ $(document).ready(function() {
             }
         });
     });
-
-    document.getElementById('profilePicture').addEventListener('click', function() {
-        var profileMenu = document.getElementById('profileMenu');
-        if (profileMenu.style.display === 'none') {
-            profileMenu.style.display = 'block';
-        } else {
-            profileMenu.style.display = 'none';
-        }
-    });
 });
+

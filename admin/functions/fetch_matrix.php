@@ -27,7 +27,7 @@ if ($rs->num_rows > 0) {
         $tableRows .= "<td class='border-bottom-0 text-center'><h6 class='fw-semibold mb-0'>" . $row['matrix_name'] . "</h6></td>";
         $tableRows .= "<td class='border-bottom-0 text-center'>";
         $tableRows .= "<a class='btn btn-sm btn-primary me-2' data-bs-toggle='modal' data-bs-target='#view-modal" . $matrix_name_base64 . "'>View</a>";
-        $tableRows .= "<a class='btn btn-sm btn-success me-2' data-bs-toggle='modal' data-bs-target='#update-modal" . $matrix_name_base64. "'>Update</a>";
+        $tableRows .= "<a class='btn btn-sm btn-success me-2' data-bs-toggle='modal' data-bs-target='#update-modal" . $matrix_name_base64. "'>Modify</a>";
         $tableRows .= "</td>";
         $tableRows .= "</tr>";
         $i++;

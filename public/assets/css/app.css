@@ -1,0 +1,157 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap');
+
+html {
+  scroll-behavior: smooth;
+}
+
+body{
+  background-color: #EEEEEE;
+}
+
+.form-floating.position-relative {
+  display: flex;
+  align-items: center;
+}
+
+.form-control {
+  flex: 1;
+  border-radius: 0;
+}
+
+.fa-eye {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+/* Adjust the padding for the form control to accommodate the icon */
+.form-control {
+  padding-right: 30px; /* Adjust as needed */
+}
+
+/* COVER PHOTO */
+
+/* Media query for screens with a maximum width of 576px (Mobile) */
+@media (max-width: 576px) {
+  #cover {
+    top: -30%; /* Adjust the positioning as needed for mobile screens */
+    max-width: 100%;
+  }
+}
+
+/* Media query for screens with a maximum width of 768px (Tablet) */
+@media (max-width: 768px) {
+  #cover {
+    top: -20%; /* Adjust the positioning as needed for Tablet screens */
+    max-width: 100%;
+  }
+}
+
+/* NAVBAR */
+
+#mobile-navbar{
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 1);
+}
+
+.navbtn:hover {
+  color: #26DB23; /* Change the color on hover */
+}
+
+/* CUSTOMIZED SCROLLBAR */
+body::-webkit-scrollbar {
+  width: 10px; /* width of the entire scrollbar */
+}
+
+body::-webkit-scrollbar-track {
+  background: rgb(255, 255, 255); /* color of the tracking area */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #428339; /* color of the scroll thumb */
+  border-radius: 10px; /* roundness of the scroll thumb */
+  border: 1px solid rgb(218, 218, 218); /* creates padding around scroll thumb */
+}
+
+/* CONTAINER 1 */
+
+@keyframes growProgressBar {
+  0%, 33% { --pgPercentage: 0; }
+  100% { --pgPercentage: var(--value); }
+}
+
+@property --pgPercentage {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+
+div[role="progressbar"] {
+  --size: 12rem;
+  --fg: #0AF630;
+  --bg: #def;
+  --pgPercentage: var(--value);
+  animation: growProgressBar 3s 1 forwards;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: 
+    radial-gradient(closest-side, white 80%, transparent 0 99.9%, white 0),
+    conic-gradient(var(--fg) calc(var(--pgPercentage) * 1%), var(--bg) 0)
+    ;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: calc(var(--size) / 5);
+  color: var(--fg);
+}
+
+div[role="progressbar"]::before {
+  counter-reset: percentage var(--value);
+  content: counter(percentage) '%';
+}
+
+@media (max-width: 768px) {
+  div[role="progressbar"] {
+    --size: 8rem; /* Adjust the size for medium screens */
+    font-size: calc(var(--size) / 5);
+  }
+}
+
+@media (min-width: 576px) {
+  div[role="progressbar"] {
+    --size: 6rem; /* Adjust the size for smaller screens */
+    font-size: calc(var(--size) / 5);
+  }
+}
+
+
+/* CONTAINER 2 */
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.plus-button {
+  color: #fff; /* Change the color on hover */
+}
+
+.plus-button:hover {
+  color: #26DB23; /* Change the color on hover */
+}
+
+#plantbox {
+  width: 150px;
+  height: auto;
+  transition: opacity 0.3s; /* Add a transition for opacity */
+}
