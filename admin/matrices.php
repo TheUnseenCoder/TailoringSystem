@@ -987,6 +987,43 @@ function confirmDelete(matrixNumber) {
 }
 </script>
 
+<script>
+function confirmDelete(assID) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'You are about to remove this product in matrix!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, remove it!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // If user confirms, send AJAX request
+            $.ajax({
+                type: 'POST',
+                url: 'functions/remove_products_in_matrix.php',
+                data: { ass_id : assID },
+                success: function(response) {
+                    // Handle success response
+                    if (response === 'success') {
+                        Swal.fire('Removed!', 'The product has been removed in the matrix.', 'success');
+                        // Reload or update the view modal here
+                    } else {
+                        Swal.fire('Error!', 'Something went wrong during deletion.', 'error');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Log the error in the console
+                    console.error(xhr.responseText);
+                    // Handle error response
+                    Swal.fire('Error!', 'Failed to remove the product in the matrix.', 'error');
+                }
+            });
+        }
+    });
+}
+</script>
+
 
 
 </body>

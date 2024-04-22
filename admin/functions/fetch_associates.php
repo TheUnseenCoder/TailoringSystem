@@ -8,7 +8,7 @@ if (isset($_GET['matrix_name'])) {
     // Get the matrix name from the query string
     $matrix_name = $_GET['matrix_name'];
     // Prepare the SQL statement with a placeholder for the matrix name
-    $associate_query = "SELECT DISTINCT matrix_name, product_id FROM ts_matrices_associate WHERE matrix_name = ?";
+    $associate_query = "SELECT DISTINCT matrix_name, product_id, ass_id FROM ts_matrices_associate WHERE matrix_name = ?";
 
     // Prepare the SQL statement
     $stmt = $conn->prepare($associate_query);
@@ -62,7 +62,7 @@ if (isset($_GET['matrix_name'])) {
                     <td class='border-bottom-0 text-center'><h6 class='fw-semibold mb-0'>" . $product_name . "</h6></td>
                     <td class='border-bottom-0 text-center'>
                         <a class='btn btn-sm btn-primary me-2' data-bs-toggle='modal' data-bs-target='#view-product". $row['product_id'] ."'>View</a>
-                        <a class='btn btn-sm btn-danger me-2' data-bs-toggle='modal' data-bs-target='#update-modal". $row['product_id'] ."'>Remove</a>
+                        <button class='btn btn-sm btn-danger me-2' onclick='confirmDelete(\"" . $row['ass_id'] . "\")'>Remove</button>
                     </td>
                 </tr>";
 
