@@ -282,7 +282,8 @@ session_start();
                                         <option selected style="color: black;">Your Gender</option>
                                         <option value="1" style="color: black;">Male</option>
                                         <option value="2" style="color: black;">Female</option>
-                                        <option value="3" style="color: black;">Others</option>
+                                        <option value="3" style="color: black;">LGBTQIA+</option>
+                                        <option value="4" style="color: black;">Prefer not to say</option>
                                     </select>
                                 </div>
                                 <div class="col-12">

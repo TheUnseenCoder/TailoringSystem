@@ -39,7 +39,7 @@ function searchTable() {
 document.addEventListener("DOMContentLoaded", function() {
     var forms = document.querySelectorAll('form[id^="addProductForm_"]');
 
-    function submitForm(event) {
+    function submitFormstart(event) {
         event.preventDefault();
 
         var formData = new FormData(this);
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     forms.forEach(function(form) {
-        form.addEventListener("submit", submitForm);
+        form.addEventListener("submit", submitFormstart);
     });
 });
 

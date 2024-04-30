@@ -19,7 +19,7 @@ while ($row1 = $view_rs->fetch_assoc()) {
         $imageUrl = isset($imageArray[0]) ? "http://192.168.1.7/TailoringSystem/admin/" . $imageArray[0] : '';
     } else {
         // If images field is empty, use default image URL
-        $imageUrl = "http://192.168.1.7/TailoringSystem/images/default-image-product.png";
+        $imageUrl = "http://192.168.1.11/TailoringSystem/images/default-image-product.png";
     }
 
     // Create product array

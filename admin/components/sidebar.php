@@ -58,9 +58,9 @@
                         <li class="sidebar-item">
                             <a href="./inquiries.php" class="sidebar-link">Inquiries</a>
                         </li>
-                        <li class="sidebar-item">
+                        <!-- <li class="sidebar-item">
                             <a href="./rating.php" class="sidebar-link">Customer Rating</a>
-                        </li>
+                        </li> -->
                     </ul>
                 </li>
                 <li class="sidebar-item">

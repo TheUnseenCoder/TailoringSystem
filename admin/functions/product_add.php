@@ -13,6 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $productName = isset($_POST['productName']) ? $_POST['productName'] : '';
     $productDescription = isset($_POST['productDescription']) ? $_POST['productDescription'] : '';
     $productBasePrice = isset($_POST['productBasePrice']) ? $_POST['productBasePrice'] : '';
+    $variants = isset($_POST['variants']) ? $_POST['variants'] : '';
+    $quantity = isset($_POST['quantity']) ? intval($_POST['quantity']) : 0;
 
     // Check if the product name already exists
     $checkQuery = "SELECT * FROM ts_products WHERE name = ?";
@@ -55,9 +57,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $serializedImages = serialize($uploadedImages);
 
         // Insert data into the database
-        $insertQuery = "INSERT INTO ts_products (name, description, base_price, images) VALUES (?, ?, ?, ?)";
+        $insertQuery = "INSERT INTO ts_products (name, description, base_price, variants, quantity, images) VALUES (?, ?, ?, ?)";
         $insertStmt = $conn->prepare($insertQuery);
-        $insertStmt->bind_param("ssss", $productName, $productDescription, $productBasePrice, $serializedImages);
+        $insertStmt->bind_param("sssssis", $productName, $productDescription, $productBasePrice, $variants, $quantity, $serializedImages);
         $insertResult = $insertStmt->execute();
 
         if ($insertResult) {

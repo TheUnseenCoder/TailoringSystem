@@ -121,7 +121,7 @@ $total_pages = ceil($total_records / $records_per_page);
 </div>
 
 <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addProductLabel">Add Product</h5>
@@ -145,6 +145,19 @@ $total_pages = ceil($total_records / $records_per_page);
                             <div class="col-12">
                                 <label for="productDescription">Description:</label><br>
                                 <textarea id="productDescription" name="productDescription" style="height: 100%; width: 100%;" required></textarea>
+                            </div>
+                        </div>
+                    </div><br>
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-8">
+                                <label for="variants">Color Variants (comma-separated):</label><br>
+                                <input type="text" id="variants" name="variants" placeholder="e.g., White, Maroon, Khaki" required>
+                            </div>
+                            <div class="col-4">
+                                <label for="quantity">Quantity:</label><br>
+                                <!-- Add multiple images here -->
+                                <input type="number" id="quantity" name="quantity" required>
                             </div>
                         </div>
                     </div><br>
@@ -179,7 +192,7 @@ $total_pages = ceil($total_records / $records_per_page);
  while ($row1 = $view_rs->fetch_assoc()) {
 ?>
 <div class="modal fade" id="view-modal<?php echo $row1['product_id']; ?>" tabindex="-1" aria-labelledby="viewProductModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="viewProductModal">View Product</h5>
@@ -227,7 +240,35 @@ $total_pages = ceil($total_records / $records_per_page);
                             <p><?php echo $row1['description']; ?></p>
                         </div>
                     </div>
-                </div>
+               
+
+                    <div class="row">
+                        <div class="col-4">
+                            <label>Variants:</label><br>
+                            <?php
+                                // Assuming $row1['variants'] contains the comma-separated values
+                                $variants = $row1['variants'];
+
+                                // Split the string into an array of variants
+                                $variantArray = explode(',', $variants);
+
+                                // Loop through the array and create a button for each variant
+                                foreach ($variantArray as $variant) {
+                                    // Output the button HTML with the variant value
+                                    echo '<button style="margin-left: 2px;">' . trim($variant) . '</button>';
+                                }
+                            ?>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4">
+                            <br>
+                            <label>Quantity:</label><br>
+                            <button><?php echo $row1['quantity']; ?></button>
+                        </div>
+                    </div>
+                    </div>
                 <!-- Product Base Price -->
                 <div class="mb-3">
                     <div class="row">
@@ -288,6 +329,18 @@ $total_pages = ceil($total_records / $records_per_page);
                                 <input type="number" id="productBasePrice" name="productBasePrice" value="<?php echo $row2['base_price']; ?>" step="0.01" required>
                             </div>
                         </div><br>
+                        <div class="mb-3">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label for="variants">Variants: </label><br>
+                                            <input type="text" id="variants" name="variants" value="<?php echo $row2['variants']; ?>" required>
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="quantity">Quantity: </label><br>
+                                            <input type="number" id="quantity" name="quantity" value="<?php echo $row2['quantity']; ?>" required>
+                                        </div>
+                                    </div><br>
+                                </div>
                         <div class="row">
                             <div class="col-12">
                                 <label for="productImages">Images:</label><br>

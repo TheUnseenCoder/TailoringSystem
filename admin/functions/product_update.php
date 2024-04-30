@@ -40,11 +40,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $productDescription = isset($_POST['productDescription']) ? $_POST['productDescription'] : '';
     $productBasePrice = isset($_POST['productBasePrice']) ? $_POST['productBasePrice'] : '';
     $productId = $_POST['productID'];
+    $variants = isset($_POST['variants']) ? $_POST['variants'] : '';
+    $quantity = isset($_POST['quantity']) ? intval($_POST['quantity']) : 0;
     // Serialize the uploaded images array
 
 
     // Insert data into the database
-    $sql = "UPDATE ts_products SET name = '$productName', description = '$productDescription', base_price = '$productBasePrice', images = '$serializedImages' WHERE product_id = $productId";
+    $sql = "UPDATE ts_products SET name = '$productName', description = '$productDescription', base_price = '$productBasePrice', variants = '$variants', quantity = '$quantity', images = '$serializedImages' WHERE product_id = $productId";
     $result = mysqli_query($conn, $sql);
 
     if ($result) {
