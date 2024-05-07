@@ -1,6 +1,15 @@
 {
     "require": {
         "phpmailer/phpmailer": "^6.9",
-        "google/apiclient": "2.15.0"
+        "google/apiclient": "2.15.0",
+        "paypal/paypal-checkout-sdk": "^1.0",
+        "paypal/paypalhttp": "^1.0",
+        "league/omnipay": "^3.2",
+        "omnipay/paypal": "^3.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     }
 }

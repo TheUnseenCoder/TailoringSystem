@@ -219,7 +219,7 @@ session_start();
               <div class="mask"></div>
               <div class="card-body text-center text-white position-absolute w-100" style="bottom: 0;">
                   <label class="fw-bold fs-6">Nicole Maravilles</label>
-                  <p class="" style="font-size: 13px;">Membber</p>
+                  <p class="" style="font-size: 13px;">Member</p>
               </div>
             </div>
           </div>

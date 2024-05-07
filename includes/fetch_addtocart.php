@@ -6,7 +6,7 @@ include 'conn.php';
 if(isset($_GET['email'])){
     $email = $_GET['email'];
 
-    $sql = "SELECT ts_addtocart.id, ts_addtocart.email, ts_addtocart.product_id, ts_addtocart.size, ts_addtocart.variant, ts_addtocart.quantity, ts_products.name, ts_products.base_price, ts_products.images, SUM(ts_matrices.additional) AS total_additional
+    $sql = "SELECT ts_addtocart.id, ts_addtocart.email, ts_addtocart.product_id, ts_addtocart.size, ts_addtocart.variant, ts_addtocart.quantity, ts_products.name, ts_products.base_price, ts_products.description, ts_products.images, SUM(ts_matrices.additional) AS total_additional
             FROM ts_addtocart 
             INNER JOIN ts_products ON ts_addtocart.product_id = ts_products.product_id 
             LEFT JOIN ts_matrices_associate ON ts_addtocart.product_id = ts_matrices_associate.product_id
@@ -27,8 +27,8 @@ if(isset($_GET['email'])){
                 // Set default image URL
                 $row['images'] = "http://192.168.1.11/tailoringSystem/images/default-image-product.png";
             }
-        
-            $row['size'] = $row['size'] . "(+ ₱" . $row['total_additional'] . ")";
+            $total_additional = $row['total_additional'] * $row['quantity'];
+            $row['size'] = $row['size'] . "(+ ₱" .  $total_additional . ")";
             $rows[] = $row;
         }
         // Return JSON response

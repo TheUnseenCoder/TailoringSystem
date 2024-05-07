@@ -29,7 +29,7 @@ if(isset($_GET["query"])) {
             $images = unserialize($row["images"]);
 
             // Extract the first image URL
-            $imageUrl = !empty($images) ? "http://192.168.1.7/TailoringSystem/admin/" . $images[0] : "http://192.168.1.7/TailoringSystem/images/default-image-product.png";
+            $imageUrl = !empty($images) ? "http://192.168.1.11/TailoringSystem/admin/" . $images[0] : "http://192.168.11/TailoringSystem/images/default-image-product.png";
             $product["image"] = $imageUrl;
 
             array_push($response["products"], $product);
