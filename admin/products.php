@@ -301,7 +301,7 @@ $total_pages = ceil($total_records / $records_per_page);
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="updateProductForm" enctype="multipart/form-data">
+                <form id="updateProductForm<?php echo $row2['product_id']; ?>" enctype="multipart/form-data">
 
                     <div class="mb-3">
                         <div class="row">
@@ -478,47 +478,48 @@ $total_pages = ceil($total_records / $records_per_page);
 </script>
 
 <script>
-    // Function to handle form submission
-    document.getElementById('updateProductForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent default form submission
+    // Function to handle form submission for updating a product
+    document.querySelectorAll('[id^="updateProductForm"]').forEach(form => {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
 
-        // Fetch form data
-        let formData = new FormData(this);
+            // Fetch form data
+            let formData = new FormData(this);
 
-        // Send AJAX request
-        fetch('functions/product_update.php', { // Updated URL
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // If insertion is successful, show success message using SweetAlert
-                Swal.fire({
-                    title: 'Success',
-                    text: data.message,
-                    icon: 'success',
-                    showConfirmButton: false,
-                    timer: 1500
-                }).then(() => {
-                    // Reload the page
-                    location.reload();
-                });
-            } else {
-                // If insertion fails, show error message using SweetAlert
-                Swal.fire({
-                    title: 'Error',
-                    text: data.message,
-                    icon: 'error'
-                });
-            }
-        })
-        .catch(error => {
-            // Handle any error that occurs during AJAX request
-            console.error('Error:', error);
+            // Send AJAX request to update_product.php
+            fetch('functions/product_update.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // If update is successful, show success message using SweetAlert
+                    Swal.fire({
+                        title: 'Success',
+                        text: data.message,
+                        icon: 'success',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        // Reload the page after successful update
+                        location.reload();
+                    });
+                } else {
+                    // If update fails, show error message using SweetAlert
+                    Swal.fire({
+                        title: 'Error',
+                        text: data.message,
+                        icon: 'error'
+                    });
+                }
+            })
+            .catch(error => {
+                // Handle any error that occurs during AJAX request
+                console.error('Error:', error);
+            });
         });
     });
-
 </script>
 
 <!-- Script to handle table reload and pagination -->

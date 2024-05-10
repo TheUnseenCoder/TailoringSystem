@@ -57,7 +57,7 @@ if ($rs->num_rows > 0) {
         if($row['status'] == 'cancelled'){
             $tableRows .= "<option value='cancelled' ". ($row['status'] == 'cancelled' ? 'selected' : '') .">Cancelled</option>";
         }elseif ($row['status'] == 'approved') {
-            $tableRows .= "<option value='pending' ". ($row['status'] == 'pending' ? 'selected' : '') .">Pending</option>
+            $tableRows .= "
                         <option value='approved' ". ($row['status'] == 'approved' ? 'selected' : '') .">Approved</option>
                         <option value='done' ". ($row['status'] == 'done' ? 'selected' : '') .">Done</option>";
         }elseif($row['status'] == 'pending'){
@@ -65,9 +65,7 @@ if ($rs->num_rows > 0) {
                             <option value='approved' ". ($row['status'] == 'approved' ? 'selected' : '') .">Approved</option>
                             <option value='rejected' ". ($row['status'] == 'rejected' ? 'selected' : '') .">Rejected</option>";
         }elseif($row['status'] == 'done'){
-            $tableRows .= "<option value='pending' ". ($row['status'] == 'pending' ? 'selected' : '') .">Pending</option>
-                            <option value='approved' ". ($row['status'] == 'approved' ? 'selected' : '') .">Approved</option>
-                            <option value='done' ". ($row['status'] == 'done' ? 'selected' : '') .">Done</option>";
+            $tableRows .= "<option value='done' ". ($row['status'] == 'done' ? 'selected' : '') .">Done</option>";
         }elseif($row['status'] == 'rejected'){
             $tableRows .= "<option value='pending' ". ($row['status'] == 'pending' ? 'selected' : '') .">Pending</option>
                             <option value='rejected' ". ($row['status'] == 'rejected' ? 'selected' : '') .">Rejected</option>";
@@ -76,7 +74,15 @@ if ($rs->num_rows > 0) {
         $tableRows .= "</select>
             </td>";
 
+        $tableRows .= "<td class='border-bottom-0 text-center'><h6 class='fw-semibold mb-0'>";
+        
+        if($row['emailing_status'] == 0){
+            $tableRows .= "No";
+        }else{
+            $tableRows .= "Yes";
+        } 
 
+        $tableRows .= "</h6></td>";
         $tableRows .= "<td class='border-bottom-0 text-center'>";
         $tableRows .= "<a class='btn btn-sm btn-primary me-2' data-bs-toggle='modal' data-bs-target='#view-modal" . $row['customize_id'] . "'>View</a>";
         $tableRows .= "</td>";

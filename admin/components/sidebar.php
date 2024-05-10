@@ -34,12 +34,6 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="./payments.php" class="sidebar-link">
-                        <i class="lni lni-money-protection"></i>
-                        <span>Payments</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
                     <a href="./customization.php" class="sidebar-link">
                         <i class="lni lni-agenda"></i>
                         <span>Customization Schedule</span>

@@ -86,6 +86,9 @@ if(isset($_SESSION["loggedinasadmin"])){
                         <h6 class="fw-semibold mb-0 text-center" style="background-color: black; color: white;">Status</h6>
                     </th>
                     <th class="border-bottom-0">
+                        <h6 class="fw-semibold mb-0 text-center" style="background-color: black; color: white;">is Emailed</h6>
+                    </th>
+                    <th class="border-bottom-0">
                         <h6 class="fw-semibold mb-0 text-center" style="background-color: black; color: white;">Action</h6>
                     </th>
                   </tr>
@@ -226,45 +229,59 @@ if(isset($_SESSION["loggedinasadmin"])){
 <script>
 function updateStatus(element, id, email) {
   var newStatus = element.value;
-  
-  // Make an AJAX request to update the status in the database
-  $.ajax({
-    url: 'functions/customization_update_status.php',
-    type: 'POST',
-    data: { id: id, email: email, status: newStatus }, // Include email in the data object
-    success: function(response) {
-      // Check if the response indicates success
-      if (response === 'success') {
-        // Show success message using SweetAlert
-        Swal.fire({
-          icon: 'success',
-          title: 'Success!',
-          text: 'Status updated successfully',
-        });
-      } else {
-        // Show error message using SweetAlert
-        Swal.fire({
-          icon: 'error',
-          title: 'Error!',
-          text: response, 
-          
-        });
-      }
-    },
-    error: function(xhr, status, error) {
-      // Show error message using SweetAlert
-      Swal.fire({
-        icon: 'error',
-        title: 'Error!',
-        text: 'Failed to update status: ' + error,
-        timer: 2000 // Auto close after 2 seconds
+
+  // Show a confirmation dialog using SweetAlert
+  Swal.fire({
+    title: 'Confirmation',
+    text: 'Are you sure you want to change the status to ' + newStatus + '?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, change it!',
+    cancelButtonText: 'Cancel'
+  }).then((result) => {
+    // If the user confirms the action, proceed with updating the status
+    if (result.isConfirmed) {
+      // Make an AJAX request to update the status in the database
+      $.ajax({
+        url: 'functions/customization_update_status.php',
+        type: 'POST',
+        data: { id: id, email: email, status: newStatus }, // Include email in the data object
+        success: function(response) {
+          // Check if the response indicates success
+          if (response === 'success') {
+            // Show success message using SweetAlert
+            Swal.fire({
+              icon: 'success',
+              title: 'Success!',
+              text: 'Status updated successfully',
+            });
+          } else {
+            // Show error message using SweetAlert
+            Swal.fire({
+              icon: 'error',
+              title: 'Error!',
+              text: response,
+            });
+          }
+        },
+        error: function(xhr, status, error) {
+          // Show error message using SweetAlert
+          Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: 'Failed to update status: ' + error,
+            timer: 2000 // Auto close after 2 seconds
+          });
+          console.error('Error updating status: ' + error);
+        }
       });
-      console.error('Error updating status: ' + error);
     }
   });
 }
-
 </script>
+
 
 
 </body>
